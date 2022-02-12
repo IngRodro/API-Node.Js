@@ -8,7 +8,7 @@ var connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
     password : 'root',
-    database : 'restaurantebd'
+    database : 'restaurant'
   });
 
 
@@ -25,7 +25,7 @@ app.set('port', 5000);
 app.use(morgan('dev'));
 
 app.get('/', (req, res)=>{
-    let query = 'SELECT * from usuarios'
+    let query = 'SELECT * from users'
     connection.query(query, function (error, results, fields) {
         if (error) throw error;
         res.send(results);
