@@ -1,20 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const mysql = require('mysql');
 const bcrypt = require("bcryptjs");
-
-var connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    password : 'root',
-    database : 'restaurant'
-});
-
-connection.connect(err =>{
-    if(err){throw err};
-        console.log('Conexion a BD exitosa')
-    
-});
+const connection = require('../connection')
 
 //Ruta Login
 router.get('/login',(req, res)=>{
