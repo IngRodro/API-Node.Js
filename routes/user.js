@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const connection = require('../connection')
 
-//Ruta Login
+//Ruta Login.
 router.get('/login',(req, res)=>{
     let user = req.body;
     const query = `SELECT * from users where users.username = ?;`;
@@ -32,37 +32,99 @@ router.get('/login',(req, res)=>{
     });
 });
 
-//Ruta guardar usuario
+//Ruta guardar usuario.
 router.post('/save',(req, res)=>{
     let user = req.body;
     const query = `SELECT * from users where users.username = ?;`;
     const values = [user.username];
     connection.query(query, values, function (error, results) {
         if (error) {
-        throw error;
+            throw error;
         }
-        if (results.length === 0) {
-        let user = req.body;
-        let sql = `INSERT INTO users(username, name, lastname, age, number, email, password, rol, state) VALUES(?,?,?,?,?,?,?,?,?);`;
-        let values = [
-            user.username,
-            user.name,
-            user.lastname,
-            user.age,
-            user.number,
-            user.email,
-            bcrypt.hashSync(user.password, 12),
-            user.rol,
-            user.state,
-        ];
-        connection.query(sql, values, (err) => {
-            if (err) {
-            throw err;
+            if (results.length === 0) {
+            let user = req.body;
+            let sql = `INSERT INTO users(username, name, lastname, age, number, email, password, rol, state) VALUES(?,?,?,?,?,?,?,?,?);`;
+            let values = [
+                user.username,
+                user.name,
+                user.lastname,
+                user.age,
+                user.number,
+                user.email,
+                bcrypt.hashSync(user.password, 12),
+                user.rol,
+                user.state,
+            ];
+            connection.query(sql, values, (err) => {
+                if (err) {
+                    throw err;
+                }
+                res.send({ status: "save" });
+            });
+            } else {
+                res.send({ status: "User not available" });
             }
-            res.send({ status: "save" });
-        });
-        } else {
-        res.send({ status: "User not available" });
+    });
+});
+
+//Ruta para actualizar usuario.
+router.put('/update/:username_req', (req, res) =>{
+
+    let user = req.body;
+    let second_user = req.params;
+
+    //Consulta (1): para actualizar el usuario.
+    let sql = `call restaurant.sp_update_users(?,?,?,?,?,?,?,?,?,?);`;
+    let values = [
+        user.username,
+        user.name,
+        user.lastname,
+        user.age,
+        user.number,
+        user.email,
+        bcrypt.hashSync(user.password, 12),
+        user.rol,
+        user.state,
+        second_user.username_req,
+    ];
+
+    //Consulta (2): para verificacion de usuario.
+    const verificatioQuery = `SELECT * from users where users.username = ?;`;
+    const verificationValue = values[0];
+
+    connection.query(verificatioQuery, verificationValue, function(error, results){
+        if(results.length === 0){
+            console.log('you can use this user!');
+            //Bloque que activa la consulta (1)
+            connection.query(sql, values, (err) => {
+                if (err) {
+                    throw err;
+                }
+                res.send({ status: "updated" });
+            });
+        }
+        else{
+            res.send({ status: "this user has already been used" });
+        }
+    });
+});
+
+//Ruta para eliminar usuario.
+router.delete('/delete/:username_req', (req, res) =>{
+
+    let username = req.params.username_req;
+
+    //Consulta (1): para eliminar el usuario.
+    let sql = `delete from restaurant.users where users.username = ?;`;
+    const value = username;
+
+    //Bloque que activa la consulta (1)
+    connection.query(sql, value, (error, results)=>{
+        if(error){
+            throw error;
+        }
+        else{
+            res.send({state: 'deleted'});
         }
     });
 });
