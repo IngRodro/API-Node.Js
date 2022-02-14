@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `Restaurant`.`Users` (
 -- Table Restaurant.Suppliers
 -- ----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Restaurant`.`Suppliers` (
-  `idSupplier` INT NOT NULL,
+  `idSupplier` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NULL,
   `location` VARCHAR(60) NULL,
   `number` VARCHAR(15) NULL,
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `Restaurant`.`Suppliers` (
 -- Table Restaurant.SaleProducts
 -- ----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Restaurant`.`SaleProducts` (
-  `idSaleProduct` INT NOT NULL,
+  `idSaleProduct` INT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(25) NULL,
   `price` DECIMAL(19,4) NULL,
   `idCategoria` INT NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `Restaurant`.`SaleProducts` (
 -- Table Restaurant.PurchaseProducts
 -- ----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Restaurant`.`PurchaseProducts` (
-  `idPurchaseProduct` INT NOT NULL,
+  `idPurchaseProduct` INT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(25) NULL,
   `price` DECIMAL(19,4) NULL,
   `idSupplier` INT NULL,
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `Restaurant`.`PurchaseProducts` (
 -- Table Restaurant.Sales
 -- ----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Restaurant`.`Sales` (
-  `idSale` INT NOT NULL,
+  `idSale` INT NOT NULL AUTO_INCREMENT ,
   `date` DATETIME(6) NULL,
   `amount` DECIMAL(19,4) NULL,
   `state` VARCHAR(15) NULL,
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `Restaurant`.`Sales` (
 -- Table Restaurant.SaleDetails
 -- ----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Restaurant`.`SaleDetails` (
-  `idSaleDetails` INT NOT NULL,
+  `idSaleDetails` INT NOT NULL AUTO_INCREMENT ,
   `idSaleProduct` INT NULL,
   `price` DOUBLE NULL,
   `quantity` INT NULL,
@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `Restaurant`.`SaleDetails` (
 -- Table Restaurant.Compraas
 -- ----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Restaurant`.`Purchases` (
-  `idPurchase` INT NOT NULL,
+  `idPurchase` INT NOT NULL AUTO_INCREMENT ,
   `date` DATE NULL,
   `amount` DECIMAL(19,4) NULL,
   `idSupplier` INT NULL,
@@ -143,7 +143,7 @@ CREATE TABLE IF NOT EXISTS `Restaurant`.`Purchases` (
 -- Table Restaurant.PurchaseDetails
 -- ----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Restaurant`.`PurchaseDetails` (
-  `idPurchaseDetails` INT NOT NULL,
+  `idPurchaseDetails` INT NOT NULL AUTO_INCREMENT ,
   `idPurchaseProduct` INT NULL,
   `price` DOUBLE NULL,
   `quantity` INT NULL,
@@ -165,7 +165,7 @@ CREATE TABLE IF NOT EXISTS `Restaurant`.`PurchaseDetails` (
 -- Table Restaurant.Almacen
 -- ----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Restaurant`.`Almacen` (
-  `idAlmacen` INT NOT NULL,
+  `idAlmacen` INT NOT NULL AUTO_INCREMENT ,
   `idPurchaseProduct` INT NULL,
   `cantidadDisponible` DOUBLE NULL,
   PRIMARY KEY (`idAlmacen`),
@@ -179,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `Restaurant`.`Almacen` (
 -- Table Restaurant.Categorias
 -- ----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Restaurant`.`Categorias` (
-  `idCategoria` INT NOT NULL,
+  `idCategoria` INT NOT NULL AUTO_INCREMENT,
   `nameCategoria` VARCHAR(50) NULL,
   `state` VARCHAR(20) NULL,
   PRIMARY KEY (`idCategoria`));
@@ -188,7 +188,7 @@ CREATE TABLE IF NOT EXISTS `Restaurant`.`Categorias` (
 -- Table Restaurant.Recetas
 -- ----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Restaurant`.`Recetas` (
-  `idReceta` INT NOT NULL,
+  `idReceta` INT NOT NULL AUTO_INCREMENT,
   `idSaleProduct` INT NULL,
   `idPurchaseProduct` INT NULL,
   `cantidadProdIngrediente` INT NULL,
