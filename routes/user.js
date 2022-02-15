@@ -74,9 +74,8 @@ router.put('/update/:username_req', (req, res) =>{
     let second_user = req.params;
 
     //Consulta (1): para actualizar el usuario.
-    let sql = `call restaurant.sp_update_users(?,?,?,?,?,?,?,?,?,?);`;
+    let sql = `call restaurant.sp_update_users(?,?,?,?,?,?,?,?,?);`;
     let values = [
-        user.username,
         user.name,
         user.lastname,
         user.age,
@@ -88,19 +87,37 @@ router.put('/update/:username_req', (req, res) =>{
         second_user.username_req,
     ];
 
+    //Bloque que activa la consulta (1)
+    connection.query(sql, values, (err) => {
+        if (err) {
+            throw err;
+        }
+        res.send({ status: "updated" });
+    });
+});
+
+//Ruta para actualizar solo el nombre de usuario.
+router.put('/update/username/:username_req', (req, res) =>{
+
+    let user = req.body;
+    let second_user = req.params;
+
+    let sql = `update users set username=? where username=?;`;
+    const value = [user.username, second_user.username_req];
+
     //Consulta (2): para verificacion de usuario.
     const verificatioQuery = `SELECT * from users where users.username = ?;`;
-    const verificationValue = values[0];
+    const verificationValue = value[0];
 
     connection.query(verificatioQuery, verificationValue, function(error, results){
         if(results.length === 0){
-            console.log('you can use this user!');
-            //Bloque que activa la consulta (1)
-            connection.query(sql, values, (err) => {
-                if (err) {
+            connection.query(sql, value, (err)=>{
+                if(err){
                     throw err;
                 }
-                res.send({ status: "updated" });
+                else{
+                    res.send({state: 'The username has been updated'});
+                }
             });
         }
         else{
